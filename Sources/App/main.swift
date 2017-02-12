@@ -5,8 +5,9 @@ import HTTP
 
 
 let drop = Droplet()
-//try drop.addProvider(VaporPostgreSQL.Provider.self)
+try drop.addProvider(VaporPostgreSQL.Provider.self)
 try drop.addProvider(StorageProvider.self)
+drop.preparations += Video.self
 
 
 
@@ -19,7 +20,7 @@ drop.get { req in
     ])
 }
 
-drop.get("uploadvideo") { request in
+drop.get("video","upload") { request in
     return try drop.view.make("uploadvideo", ["message":"Welcome"])
 }
 
@@ -29,7 +30,7 @@ drop.get("uploadvideo") { request in
 
 
 
-drop.post("upload") { req in
+drop.post("video","upload") { req in
     guard let image = req.multipart?["image"]?.file else {
         throw Abort.badRequest
     }
@@ -59,6 +60,8 @@ drop.post("upload") { req in
         let path = try Storage.upload(bytes: image.data, fileName: name, fileExtension: fileType, mime: fileType, folder: nil)
         print(path)
         
+        cdnPath = try Storage.getCDNPath(for: path)
+        
         
     
     }
@@ -66,14 +69,18 @@ drop.post("upload") { req in
     
     
 
+    var video = Video(title: name, url: cdnPath)
+    try video.save()
     
-    
-//    return try JSON(node:["name":name,
-//                          "image":image.name,
-//                          "altImage":altImage,
-//                          "url":cdnPath])
+    return try JSON(node:["video":video.makeNode()])
 //    return try drop.view.make("uploadvideo", ["message":"Success?"])
-    return Response(redirect: "/uploadvideo")
+   // return Response(redirect: "/uploadvideo")
+}
+
+drop.get("api","videos") { req in
+    let videos = try Video.query().all()
+    
+    return try JSON(node:["videos":videos.makeNode()])
 }
 
 
