@@ -1,0 +1,31 @@
+#extend("base")
+#export("body") {
+
+
+#raw() {
+<div class="container">
+
+<!-- Main component for a primary marketing message or call to action -->
+<div class="jumbotron">
+<h1>}#(message)#raw() {</h1>
+
+
+<h4>Select files from your computer</h4>
+
+
+<form action="upload" method="POST" enctype="multipart/form-data">
+<input type="text" name="name">
+<input type="file" name="image">
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+<input class="btn" type="submit" value="Submit">
+</form>
+
+</div>
+
+</div>
+}
+
+
+
+}

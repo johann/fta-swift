@@ -1,0 +1,10 @@
+{
+    
+    "accessKey": "AKIAJOPDARXD3EWGWXXQ",
+    "secretKey": "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",
+    "bucket": "immersive-video",
+    "region": "us-east-1",
+    "host": "s3.amazonaws.com",
+    "template":"/#file"
+    
+}
