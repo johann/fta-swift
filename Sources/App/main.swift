@@ -1,6 +1,7 @@
 import Vapor
 import Storage
 import VaporPostgreSQL
+import HTTP
 
 
 let drop = Droplet()
@@ -19,7 +20,7 @@ drop.get { req in
 }
 
 drop.get("uploadvideo") { request in
-    return try drop.view.make("uploadvideo", ["message":"Johann"])
+    return try drop.view.make("uploadvideo", ["message":"Welcome"])
 }
 
 
@@ -67,10 +68,12 @@ drop.post("upload") { req in
 
     
     
-    return try JSON(node:["name":name,
-                          "image":image.name,
-                          "altImage":altImage,
-                          "url":cdnPath])
+//    return try JSON(node:["name":name,
+//                          "image":image.name,
+//                          "altImage":altImage,
+//                          "url":cdnPath])
+//    return try drop.view.make("uploadvideo", ["message":"Success?"])
+    return Response(redirect: "/uploadvideo")
 }
 
 
