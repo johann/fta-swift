@@ -21,12 +21,15 @@ final class Article: Model {
     var exists: Bool = false
     var url: String
     var author: String
+    var cohort: String
     
     
     
-    init(url: String, author: String) {
+    
+    init(url: String, author: String, cohort:String) {
         self.url = url
         self.author = author
+        self.cohort = cohort
         
     }
     
@@ -34,12 +37,15 @@ final class Article: Model {
         id = try node.extract("id")
         url = try node.extract("url")
         author = try node.extract("author")
+        cohort = try node.extract("cohort")
+        
     }
     
     func makeNode(context : Context) throws -> Node {
         return try Node(node: ["id": id,
                      "url": url,
-                     "author": author
+                     "author": author,
+                     "cohort": cohort
             ])
     }
     
@@ -52,6 +58,7 @@ extension Article {
             articles.id()
             articles.string("url")
             articles.string("author")
+            articles.string("cohort")
             
             
         }

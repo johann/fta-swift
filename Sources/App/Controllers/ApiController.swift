@@ -25,6 +25,7 @@ final class ApiController {
     func addDrop(_ drop: Droplet) {
         drop.get("students", handler:studentGroups)
         drop.post("api","submitblog", handler: submitBlog)
+       
     }
     
     func submitBlog(request: Request) throws -> ResponseRepresentable {
@@ -41,10 +42,9 @@ final class ApiController {
 //        response_url=https://hooks.slack.com/commands/1234/5678
         
         
-        if let blogUrl = request.data["text"]?.string, let author = request.data["user_name"]?.string  {
-            print(blogUrl)
-            print(author)
-            var blog = Article(url: blogUrl, author: author)
+        if let blogUrl = request.data["text"]?.string, let author = request.data["user_name"]?.string, let cohort = request.data["channel_name"]?.string  {
+      
+            var blog = Article(url: blogUrl, author: author, cohort: cohort)
             try blog.save()
             
         } else {
