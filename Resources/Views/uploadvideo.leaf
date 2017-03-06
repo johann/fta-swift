@@ -13,8 +13,8 @@
 <h4>Select files from your computer</h4>
 
 
-<form action="upload" method="POST" enctype="multipart/form-data">
-<input type="text" name="name">
+<form action="upload" method="POST">
+<input type="text" name="title">
 <input type="file" name="image">
 <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
