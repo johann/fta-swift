@@ -105,7 +105,13 @@ final class ApiController {
             } else {
                 var group: [Student] = []
                 for i in 1...groupSize {
-                    let randomStudent = arc4random_uniform(UInt32(students.count))
+                    ///let randomStudent = arc4random_uniform(UInt32(students.count))
+                    
+                    #if os(Linux)
+                        let randomStudent = Int(random() % (students.count + 1))
+                    #else
+                        let randomStudent = arc4random_uniform(UInt32(students.count))
+                    #endif
                     print(randomStudent)
                     print(students.count)
                     group.append(students.remove(at: Int(randomStudent)))
