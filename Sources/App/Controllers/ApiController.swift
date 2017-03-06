@@ -25,7 +25,15 @@ final class ApiController {
     func addDrop(_ drop: Droplet) {
         drop.get("students", handler:studentGroups)
         drop.post("api","submitblog", handler: submitBlog)
+        drop.get("blogs", String.self, handler: listBlogs)
        
+       
+    }
+    
+    func listBlogs(request: Request, cohort: String) throws -> ResponseRepresentable {
+        let articles = try Article.query().filter("cohort", cohort).all()
+        
+        return try articles.makeJSON()
     }
     
     func submitBlog(request: Request) throws -> ResponseRepresentable {
@@ -46,6 +54,7 @@ final class ApiController {
       
             var blog = Article(url: blogUrl, author: author, cohort: cohort)
             try blog.save()
+            return "Thanks for submitting  🤙"
             
         } else {
             return "Bad Request"
